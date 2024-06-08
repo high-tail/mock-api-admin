@@ -8,30 +8,28 @@ import Paper from '@mui/material/Paper';
 import { alpha, Container, Box, Stack, Typography, TextField, Button } from '@mui/material';
 
 import FlashPage from '../page/FlashPage';
-import { useFetchSample1 } from '../../lib/hook/sample/useFetchSample';
+import { Sample1, useFetchSample1 } from '../../lib/hook/sample/useFetchSample';
 import client from "../../lib/api/client";
 
 
-const Sample1: React.FC = () => {
-    const { data, error, loading } = useFetchSample1();
-
-    const [formdId, setId] = React.useState(data?.id);
-    const [formData, setData] = React.useState(data?.id);
+const Sample1Form: React.FC = () => {
+    const [formSample1, setSample1] = React.useState<Sample1>();
+    const { data, error, loading } = useFetchSample1(setSample1);
 
     const [flashMessage, setFlashMessage] = React.useState(false);
     const [responseCode, setResponseCode] = React.useState(200);
 
     const changeIdHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setId(event.target.value);
+        setSample1({...formSample1, id: event.target.value });
     };
 
     const changeDataHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setData(event.target.value);
+        setSample1({...formSample1, data: event.target.value });
     };
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        client.post("/api/v1/sample1", { id: formdId, data: formData }, {
+        client.post("/api/v1/sample1", formSample1, {
             headers: {
                 contentType: 'application/json',
             }
@@ -90,7 +88,7 @@ const Sample1: React.FC = () => {
                                 <TableRow>
                                     <TableCell>ID</TableCell>
                                     <TableCell>
-                                        <TextField defaultValue={formdId} sx={{
+                                        <TextField defaultValue={data?.id} sx={{
                                             width: "100%"
                                         }} onChange={(event) => changeIdHandler(event)} />
                                     </TableCell>
@@ -100,7 +98,7 @@ const Sample1: React.FC = () => {
                                 <TableRow>
                                     <TableCell>Data</TableCell>
                                     <TableCell>
-                                        <TextField defaultValue={formData} sx={{
+                                        <TextField defaultValue={data?.data} sx={{
                                             width: "100%"
                                         }} onChange={(event) => changeDataHandler(event)} />
                                     </TableCell>
@@ -119,11 +117,11 @@ const Sample1: React.FC = () => {
                         <Button type='submit' variant='text' color='primary' size='large' onClick={(e) => handleSubmit(e)}>Save</Button>
                         <Button type='button' href='/' size='large'>Home</Button>
                     </Box>
-                    
+
                 </Container>
             </Box>
         </>
     );
 }
 
-export default Sample1;
+export default Sample1Form;

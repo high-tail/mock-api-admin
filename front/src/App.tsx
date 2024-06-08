@@ -8,8 +8,8 @@ import getLPTheme from './components/page/getLPTheme';
 import AppAppBar from './components/page/AppAppBar';
 
 import Home from './components/home';
-import Sample1 from './components/sample/sample1';
-import Sample2 from './components/sample/sample2';
+import Sample1Form from './components/sample/sample1';
+import Sample2Form from './components/sample/sample2';
 import Footer from './components/page/Footer';
 import NotFound from './components/page/NotFound';
 
@@ -29,8 +29,8 @@ const App: React.FC = () => {
         <Divider />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sample1" element={<Sample1 />} />
-          <Route path="/sample2" element={<Sample2 />} />
+          <Route path="/sample1" element={<Sample1Form />} />
+          <Route path="/sample2" element={<Sample2Form />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer mode={mode} toggleColorMode={toggleColorMode} />

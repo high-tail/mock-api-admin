@@ -13,7 +13,7 @@ export interface IResponse {
     loading: boolean;
 }
 
-export const useFetchEndpoints = (): IResponse => {
+export const useFetchEndpoints = (setRows: React.Dispatch<React.SetStateAction<EndPoint[]>>): IResponse => {
     const [res, setRes] = useState<IResponse>({
         data: [],
         error: null,
@@ -27,7 +27,9 @@ export const useFetchEndpoints = (): IResponse => {
     const fetchRequest = () => {
         setRes((prevState) => ({ ...prevState, loading: true }));
         client.get<Array<EndPoint>>("/api/v1/endpoints").then((response) => {
-            setRes({ data: response.data.filter(row => !row.path.startsWith("/api/v1")), error: null, loading: false });
+            const endpoints = response.data.filter(row => !row.path.startsWith("/api/v1"));
+            setRes({ data: endpoints, error: null, loading: false });
+            setRows(endpoints);
         }).catch((error: AxiosError) => {
             setRes({ data: [], error: error, loading: false });
         });

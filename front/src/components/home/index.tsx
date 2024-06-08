@@ -4,16 +4,17 @@ import { Box, Container, IconButton } from '@mui/material';
 
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 
-import { useFetchEndpoints } from '../../lib/hook/useFetchEndPoints';
+import { EndPoint, useFetchEndpoints } from '../../lib/hook/useFetchEndPoints';
 import Howtouse from '../howto';
 import Title from '../page/Title';
 import SearchBar from './Search';
 
 
 const Home: React.FC = () => {
-    const { data, error, loading } = useFetchEndpoints();
+    const [rows, setRows] = React.useState<EndPoint[]>([]);
 
-    const [rows, setRows] = React.useState(data);
+    const { data, error, loading } = useFetchEndpoints(setRows);
+
     const [page, setPage] = React.useState(0);
     const [searched, setSearched] = React.useState("");
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
